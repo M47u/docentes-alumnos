@@ -12,13 +12,22 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
+     * Mostrar el perfil del usuario autenticado.
+     */
+    public function show(): View
+    {
+        $user = Auth::user();
+        \Illuminate\Support\Facades\Gate::authorize('view', $user);
+        return view('profile.show', compact('user'));
+    }
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        \Illuminate\Support\Facades\Gate::authorize('update', $user);
+        return view('profile.edit', compact('user'));
     }
 
     /**
@@ -26,14 +35,18 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = \App\Models\User::find(Auth::id());
+        \Illuminate\Support\Facades\Gate::authorize('update', $user);
+        $data = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Manejo de foto de perfil
+        if ($request->hasFile('photo_path')) {
+            $file = $request->file('photo_path');
+            $path = $file->store('profile-photos', 'public');
+            $data['photo_path'] = '/storage/' . $path;
         }
 
-        $request->user()->save();
-
+        $user->update($data);
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

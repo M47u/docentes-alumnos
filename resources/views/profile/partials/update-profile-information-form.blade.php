@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -45,6 +45,27 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <x-input-label for="phone" :value="__('Teléfono')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="phone" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="professional_url" :value="__('Enlace profesional')" />
+            <x-text-input id="professional_url" name="professional_url" type="url" class="mt-1 block w-full" :value="old('professional_url', $user->professional_url)" autocomplete="professional_url" />
+            <x-input-error class="mt-2" :messages="$errors->get('professional_url')" />
+        </div>
+
+        <div>
+            <x-input-label for="photo_path" :value="__('Foto de perfil')" />
+            <input id="photo_path" name="photo_path" type="file" class="mt-1 block w-full" />
+            @if($user->photo_path)
+                <img src="{{ $user->photo_path }}" alt="Foto actual" class="w-16 h-16 rounded-full mt-2">
+            @endif
+            <x-input-error class="mt-2" :messages="$errors->get('photo_path')" />
         </div>
 
         <div class="flex items-center gap-4">
