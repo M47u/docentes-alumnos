@@ -1,0 +1,48 @@
+Listado de Requerimientos — App de Alumnos en Laravel 12 + MySQL
+1) Descripción General
+Desarrollar una aplicación web en Laravel 12 con base de datos MySQL, que gestione
+usuarios con autenticación y roles simples (docente/administrador y alumno). El sistema
+debe permitir que el docente pueda ver el listado de todos los usuarios registrados y que
+los alumnos puedan acceder y modificar su propio perfil.
+2) Requerimientos Funcionales
+2.1 Autenticación y Registro
+• Implementar sistema de login y registro de usuarios con Laravel Breeze (Blade).
+• En el registro, capturar los siguientes datos:
+• Nombre (obligatorio)
+• Email (obligatorio)
+• Contraseña (obligatorio)
+• Teléfono (opcional)
+• Enlace a red profesional — LinkedIn, GitHub u otra (opcional)
+• Foto de perfil (obligatoria)
+2.2 Roles
+• Administrador (docente): puede ver listado y detalle de todos los usuarios.
+• Alumno: sólo puede ver y editar su propio perfil.
+2.3 Perfil de Usuario
+• Campo de teléfono con hipervínculo directo a WhatsApp.
+• Campo de enlace a red profesional que abra en nueva pestaña.
+• Foto de perfil visible en perfil y listado.
+3) Requerimientos Técnicos
+• Framework: Laravel 12
+• Base de datos: MySQL
+• Migraciones: agregar campos is_admin, phone, professional_url, photo_path a la tabla
+users.
+• Seeder para crear usuario administrador por defecto.
+• Policies para control de acceso (viewAny, view, update).
+4) Frontend
+• Vistas Blade para perfil de alumno, edición, listado y detalle de usuarios.
+• Estilos con TailwindCSS incluido en Breeze.
+• Formulario de registro con carga obligatoria de foto de perfil.
+5) Seguridad
+• Middleware auth en rutas protegidas.
+• Validación de formularios con FormRequest.
+• Prefijo de país para WhatsApp configurable en .env.
+6) Flujo de Uso
+• Docente inicia sesión con usuario administrador.
+• Accede a /admin/users para ver listado de usuarios.
+• Alumno se registra con foto de perfil y demás datos requeridos.
+• Alumno edita su propio perfil.
+7) Entregables
+• Código fuente Laravel con toda la funcionalidad.
+• Migraciones y seeders.
+• Seeder con usuario administrador.
+• Guía de instalación y uso (README).
